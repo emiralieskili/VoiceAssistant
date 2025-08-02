@@ -22,7 +22,7 @@ def process_command(command, sp, awake=True):
         webcontrol.weatherCondition()
     
     elif "haber oku" in command or "haberler" in command:
-        webcontrol.haberleri_oku()
+        webcontrol.haberOku()
 
     #spotify komutları
     elif "müzik aç" in command or "şarkı aç" in command:
@@ -72,7 +72,7 @@ def process_command(command, sp, awake=True):
         speak("Ne not almamı istersin?")
         note = listen()
         if note:
-            folder_path = r"----" # Notların kaydedileceği klasör yolu
+            folder_path = os.getenv("SESLİ_ASİSTAN_NOTLARI_PATH")
             if not os.path.exists(folder_path):
                 os.makedirs(folder_path)
 

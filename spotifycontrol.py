@@ -2,10 +2,18 @@ from speech import speak, listen
 import spotipy
 import os
 import time
+from dotenv import load_dotenv
+from pathlib import Path
+load_dotenv()
+
+
+env_path = Path(__file__).parent / ".env"
+loaded = load_dotenv(dotenv_path=env_path)
+
 
 def spotifyAc():
     import psutil
-    spotify_yolu = r"--------"  # Spotify uygulamasının tam yolu
+    spotify_yolu = os.getenv("SPOTIFY_PATH")  # Spotify uygulamasının yolu
     
     spotify_acik = any("Spotify.exe" in p.name() for p in psutil.process_iter())
     if not spotify_acik:

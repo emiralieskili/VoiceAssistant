@@ -1,7 +1,7 @@
 import pywhatkit
 
 rehber={
-#########
+
 }
 
 def mesajGonder(isim, mesaj):
