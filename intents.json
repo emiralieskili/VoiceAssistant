@@ -1,0 +1,200 @@
+{
+    "selamlama": [
+        "merhaba",
+        "selam",
+        "selamlar",
+        "merhabalar",
+        "günaydın",
+        "iyi akşamlar",
+        "iyi geceler",
+        "selamün aleyküm",
+        "hey",
+        "alo"
+    ],
+    "halHatır": [
+        "nasılsın",
+        "nasılsınız",
+        "nasıl gidiyor",
+        "iyi misin",
+        "iyi misiniz",
+        "naber",
+        "ne haber",
+        "ne var ne yok",
+        "nasıl hissediyorsun",
+        "keyifler nasıl",
+        "keyfin nasıl"
+    ],
+    "halHatırCevapOlumlu": [
+        "iyiyim",
+        "iyi",
+        "iyidir",
+        "iyiyim teşekkürler",
+        "iyiyim teşekkür ederim",
+        "harikayım",
+        "süperim",
+        "gayet iyiyim",
+        "mükemmelim"
+    ],
+    "halHatırCevapOlumsuz": [
+        "kötüyüm",
+        "kötü",
+        "berbat",
+        "hiç iyi değilim",
+        "moralsizim",
+        "canım sıkkın"
+    ],
+    "googleArama": [
+        "google'da ara",
+        "google'da arat",
+        "google'da arama yap",
+        "internette ara",
+        "google üzerinden ara",
+        "google aç",
+        "google çalıştır"
+    ],
+    "youtubeArama": [
+        "youtube'da ara",
+        "youtube'da arat",
+        "youtube'da arama yap",
+        "youtube aç",
+        "youtube çalıştır",
+        "youtube'da aç"
+    ],
+    "havaDurumu": [
+        "hava durumunu oku",
+        "hava nasıl",
+        "hava durumu nedir",
+        "hava durumu ne",
+        "hava durumu nasıl",
+        "bugün hava nasıl",
+        "bugün hava kaç derece",
+        "bana hava durumunu söyle",
+        "bana hava durumunu oku",
+        "bana hava durumunu bildir",
+        "hava raporunu oku",
+        "hava kaç derece",
+        "hava sıcak mı"
+    ],
+    "haberOku": [
+        "haber oku",
+        "haberleri aç",
+        "son haberler",
+        "gündem haberleri",
+        "gündemi anlat",
+        "bana haber oku",
+        "gündemde ne var"
+    ],
+    "müzikAç": [
+        "müzik aç",
+        "şarkı aç",
+        "bir şarkı çal",
+        "bir müzik aç",
+        "şarkı başlat",
+        "bana bir şarkı çalsana"
+    ],
+    "müziğiDeğiştir": [
+        "müzik değiştir",
+        "şarkı değiştir",
+        "şarkıyı değiştir",
+        "müziği değiştir"
+    ],
+    "müziğiDurdur": [
+        "şarkı durdur",
+        "müzik durdur",
+        "müziği durdur",
+        "şarkıyı durdur",
+        "müziği kapat",
+        "şarkıyı kes",
+        "müziği kes",
+        "şarkıyı kapat"
+    ],
+    "çalmaListesiAç": [
+        "çalma listesini aç",
+        "playlisti aç",
+        "çalma listemi aç",
+        "playlistimi aç",
+        "playlisti başlat",
+        "çalma listesini başlat",
+        "playlistimi başlat",
+        "çalma listemi başlat"
+    ],
+    "şarkıyaDevamEt": [
+        "şarkıya devam et",
+        "müziğe devam et",
+        "kaldığın yerden çal",
+        "devam et",
+        "şarkıyı oynat",
+        "müziği oynat"
+    ],
+    "mesajGönder": [
+        "mesaj gönder",
+        "mesaj at",
+        "mesaj yaz",
+        "mesaj yazdır",
+        "birine mesaj gönder",
+        "mesaj yollar mısın",
+        "mesajı ilet",
+        "birine mesaj at",
+        "birine mesaj yaz"
+    ],
+    "çıkış": [
+        "kapat",
+        "çık",
+        "çıkış yap",
+        "kapan",
+        "programı kapat",
+        "programdan çık",
+        "programdan çıkış yap",
+        "uygulamayı kapat",
+        "kapan asistan",
+        "kendini kapat",
+        "intihar et"
+    ],
+    "uykuModu": [
+        "uyku modu",
+        "uykuya geç",
+        "uyku moduna geç",
+        "uykuya dal",
+        "dinlen"
+    ],
+    "not": [
+        "not al",
+        "not yaz",
+        "not kaydet",
+        "not ekle",
+        "not et",
+        "not düş",
+        "notu kaydet",
+        "not defterine kaydet"
+    ],
+    "saat": [
+        "saat kaç",
+        "saat nedir",
+        "şu an saat kaç",
+        "şu an saat nedir",
+        "saat söyle",
+        "saat kaç oldu",
+        "bana saati söyler misin"
+    ],
+    "tarih": [
+        "tarih kaç",
+        "tarih nedir",
+        "bugünün tarihi",
+        "bugün tarih nedir",
+        "bugünün tarihi nedir",
+        "tarih ne",
+        "hangi gündeyiz",
+        "bugün hangi gün",
+        "günü söyle",
+        "günlerden ne"
+    ],
+    "komutEkle": [
+        "komut ekle",
+        "yeni komut ekle",
+        "komut oluştur",
+        "yeni komut oluştur",
+        "komut tanımla",
+        "yeni komut tanımla",
+        "komutu kaydet"
+    ]
+}

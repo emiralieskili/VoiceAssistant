@@ -3,12 +3,13 @@ import commands
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from dotenv import load_dotenv
-import os
 from pathlib import Path
-load_dotenv()
+import os
+from intentrecognition import IntentRecognition
 
+# .env dosyasını yükle
 env_path = Path(__file__).parent / ".env"
-loaded = load_dotenv(dotenv_path=env_path)
+load_dotenv(dotenv_path=env_path)
 
 # Spotipy yetkilendirme
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
@@ -18,10 +19,12 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
     scope="user-modify-playback-state user-read-playback-state playlist-read-private"
 ))  
 
-wakeWords=["kaya","bilgisayar","asistan","sesli asistan"]
+# Uyandırma kelimeleri
+wakeWords = ["bilgisayar"]
 
 def main():
     awake = False
+    intentEngine = IntentRecognition()  # intent motoru
 
     while True:
         command = listen()
@@ -29,14 +32,18 @@ def main():
         if not command:
             continue
 
+        command = command.lower()
+
         if not awake:
-            if any(wakeWords in command for wakeWords in wakeWords):
+            if any(word in command.lower() for word in wakeWords):
                 speak("Dinliyorum.")
                 awake = True
             else:
                 continue
         else:
-            awake = commands.process_command(command, sp, awake)  # sp parametresi eklendi
+            # intent burada bulunuyor
+            intent = intentEngine.get_intent(command)
+            awake = commands.process_command(command, sp, intent,intentEngine, awake)
 
 if __name__ == "__main__":
     main()

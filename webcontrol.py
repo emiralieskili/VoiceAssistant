@@ -16,13 +16,16 @@ apiKeyNews = os.getenv("NEWS_API_KEY")  # NewsAPI key
 #Google arama
 def googleArama():
     speak("Ne aramak istiyorsun?")
+    print("Ne aramak istiyorsun?")
     while True:
         query = listen()
         if not query:
             speak("Anlayamadım, lütfen tekrar söyle.")
+            print("Anlayamadım, lütfen tekrar söyle.")
             continue
         if query.lower() in ["aramayı iptal et", "aramayı durdur", "iptal et"]:
             speak("Arama iptal edildi.")
+            print("Arama iptal edildi.")
             return
         
         # Google arama sayfasını aç
@@ -33,13 +36,16 @@ def googleArama():
 #YouTube arama
 def youtubeArama():
     speak("Ne aramak istiyorsun?")
+    print("Ne aramak istiyorsun?")
     while True:
         query = listen()
         if not query:
             speak("Anlayamadım, lütfen tekrar söyle.")
+            print("Anlayamadım, lütfen tekrar söyle.")
             continue
         if query.lower() in ["aramayı iptal et", "aramayı durdur", "iptal et"]:
             speak("Arama iptal edildi.")
+            print("Arama iptal edildi.")
             return
         
         # YouTube arama sayfasını aç
@@ -47,35 +53,53 @@ def youtubeArama():
         webbrowser.open(url)
         break
 
-#Hava durumu
 def weatherCondition():
-    speak("Hava durumu bilgisi için lütfen bir şehir ismi söyleyin.")
+    speak("Hava durumu bilgisi için il ve ilçe ismini söyleyin.")
+    print("Hava durumu bilgisi için il ve ilçe ismini söyleyin.")
+    
     while True:
-        sehir = listen()
-        if not sehir:
-            speak("Anlayamadım, lütfen tekrar söyle.")
+        location = listen()
+        if not location:
+            speak("Anlayamadım, lütfen tekrar söyleyin.")
+            print("Anlayamadım, lütfen tekrar söyleyin.")
             continue
-        if sehir.lower() in ["aramayı iptal et", "aramayı durdur", "iptal et"]:
+        
+        if location.lower() in ["aramayı iptal et", "aramayı durdur", "iptal et"]:
             speak("Hava durumu sorgulaması iptal edildi.")
+            print("Hava durumu sorgulaması iptal edildi.")
             return
         
-        url = f"http://api.openweathermap.org/data/2.5/weather?q={sehir}&appid={apiKeyWeather}&units=metric&lang=tr"
-        response = requests.get(url)
+        # Şehir ve ilçe ayrıştırması
+        parts = location.strip().split()
+        if len(parts) == 1:
+            city = parts[0]
+            district = ""
+        else:
+            city = " ".join(parts[:-1])
+            district = parts[-1]
         
+        # API query: district boşsa sadece city gönderiyoruz
+        query = f"{city},{district},TR" if district else f"{city},TR"
+        url = f"http://api.openweathermap.org/data/2.5/weather?q={query}&appid={apiKeyWeather}&units=metric&lang=tr"
+        
+        response = requests.get(url)
         if response.status_code == 200:
             veri = response.json()
             sicaklik = veri["main"]["temp"]
             durum = veri["weather"][0]["description"]
-            speak(f"{sehir} için hava durumu: {durum}, sıcaklık {sicaklik} derece.")
+            speak(f"{location} için hava durumu: {durum}, sıcaklık {sicaklik} derece.")
+            print(f"{location} için hava durumu: {durum}, sıcaklık {sicaklik} derece.")
             break
         else:
-            speak("Hata: Şehir bulunamadı veya hava durumu bilgisi alınamadı. Lütfen tekrar deneyin.")
+            speak("Şehir veya ilçe bulunamadı. Lütfen tekrar söyleyin.")
+            print("Şehir veya ilçe bulunamadı. Lütfen tekrar söyleyin.")
             continue
 
 # Haber okuma
 def haberOku():
     while True:
         speak("Hangi kategoride haberleri okumak istersiniz? Spor, teknoloji, bilim, sağlık, eğlence, iş veya genel haberler?")
+        print("Hangi kategoride haberleri okumak istersiniz? Spor, teknoloji, bilim, sağlık, eğlence, iş veya genel haberler?")
         kategoriler = ["sports", "technology", "science", "health", "entertainment", "business", "general"]
         kategori = listen()
         if not kategori:
@@ -110,13 +134,16 @@ def haberOku():
             haberler = response.json().get("articles", [])
             if not haberler:
                 speak("Bugün haber bulunamadı.")
+                print("Bugün haber bulunamadı.")
                 return
             speak("İşte son haber başlıkları:")
+            print("İşte son haber başlıkları:")
             for haber in haberler[:5]:
                 speak(haber["title"])
             break
         else:
             speak("Haberler alınırken hata oluştu.")
+            print("Haberler alınırken hata oluştu.")
             break
 
 
@@ -124,13 +151,16 @@ def haberOku():
 def wikipediaAra():
     wikipedia.set_lang("tr")
     speak("Ne hakkında bilgi almak istersin?")
+    print("Ne hakkında bilgi almak istersin?")
     while True:
         konu = listen()
         if not konu:
             speak("Anlayamadım, lütfen tekrar söyle.")
+            print("Anlayamadım, lütfen tekrar söyle.")
             continue
         if konu.lower() in ["aramayı iptal et", "aramayı durdur", "iptal et"]:
             speak("Arama iptal edildi.")
+            print("Arama iptal edildi.")
             return
     
         try:
@@ -139,8 +169,10 @@ def wikipediaAra():
             break
         except wikipedia.exceptions.DisambiguationError as e:
             speak(f"{konu} hakkında çok fazla sonuç var. Lütfen daha spesifik bir konu belirt.")
+            print(f"Seçenekler: {e.options}")
         except wikipedia.exceptions.PageError:
             speak(f"{konu} hakkında bilgi bulunamadı.")
+            print(f"{konu} hakkında bilgi bulunamadı.")
         except Exception as e:
             speak("Bir hata oluştu, lütfen tekrar deneyin.")
             print(f"Hata: {e}")

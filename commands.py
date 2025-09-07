@@ -4,72 +4,92 @@ import os
 import spotifycontrol
 import whatsappcontrol
 import webcontrol
+import intentrecognition
 
-def process_command(command, sp, awake=True):
+def process_command(command, sp, intent, intentEngine,awake=True):
     command = command.lower()
-
-    if "nasılsın" in command:
-        speak("İyiyim, teşekkürler. Sen nasılsın?")
+    #Basit sohbet
+    if intent=="selamlama":
+        speak("Merhaba! Size nasıl yardımcı olabilirim?")
+        print("Merhaba! Size nasıl yardımcı olabilirim?")
+    
+    elif intent=="halHatır":
+        speak("Ben bir sesli asistanım, duygularım yok ama size yardımcı olmak için buradayım. Siz nasılsınız?")
+        print("Ben bir sesli asistanım, duygularım yok ama size yardımcı olmak için buradayım. Siz nasılsınız?")
+    
+    elif intent=="halHatırCevapOlumlu":
+        speak("Bunu duyduğuma sevindim. Size nasıl yardımcı olabilirim?")
+        print("Bunu duyduğuma sevindim. Size nasıl yardımcı olabilirim?")
+    
+    elif intent=="halHatırCevapOlumsuz":
+        speak("Üzgünüm, umarım daha iyi hissedersiniz. Size nasıl yardımcı olabilirim?")
+        print("Üzgünüm, umarım daha iyi hissedersiniz. Size nasıl yardımcı olabilirim?")
     
     #arama yapma
-    elif "google'da ara" in command:
+    elif intent=="googleArama":
         webcontrol.googleArama()
     
-    elif "youtube'da ara" in command:   
+    elif intent=="youtubeArama":   
         webcontrol.youtubeArama()
     
-    elif "hava durumu" in command:
+    elif intent=="havaDurumu":
         webcontrol.weatherCondition()
     
-    elif "haber oku" in command or "haberler" in command:
+    elif intent=="haberOku":
         webcontrol.haberOku()
 
     #spotify komutları
-    elif "müzik aç" in command or "şarkı aç" in command:
+    elif intent=="müzikAç":
         speak("Hangi şarkıyı açmamı istersin?")
+        print("Şarkı için dinleniyor...")
         song_name = listen()
-        acikmi=True
-        spotifycontrol.play_song(song_name, sp)
+        spotifycontrol.play_song(sp,song_name)
     
-    elif "müzik değiştir" in command or "şarkı değiştir" in command:
-        if acikmi:
+    elif intent=="müzikDeğiştir":
             speak("Hangi şarkıya geçmek istersin?")
+            print("Şarkı için dinleniyor...")
             song_name = listen()
-            spotifycontrol.play_song(song_name, sp)
+            spotifycontrol.play_song(sp,song_name)
             speak("Şarkı değiştirildi.")
-        else:
-            speak("Önce müzik açmalısın.")
+            print("Şarkı değiştirildi.")
 
-    elif "şarkı durdur" in command or "müzik durdur" in command:
+    elif intent=="müzikDurdur":
         sp.pause_playback()
         speak("Müzik durduruldu.")
-        acikmi=False
+        print("Müzik durduruldu.")
     
-    elif "çalma listesini aç" in command or "playlisti aç" in command:
+    elif intent=="playlistAç":
         spotifycontrol.play_playlist(sp)
 
-    elif "şarkıya devam et" in command or "müziğe devam et" in command:
+    elif intent=="şarkıyaDevamEt":
         spotifycontrol.resume_playback(sp)
+        speak("Müzik devam ediyor.")
+        print("Müzik devam ediyor.")
 
     #whatsapp komutları
-    elif "mesaj gönder" in command or "mesaj at" in command:
+    elif intent=="mesajGönder":
         speak("Kime mesaj göndermek istersin?")
+        print("Kişi için dinleniyor...")
         kisi = listen()
         speak("Ne göndereyim?")
+        print("Mesaj için dinleniyor...")
         mesaj = listen()
         whatsappcontrol.mesajGonder(kisi, mesaj)
 
-    # günlük kullanılabilecek komutlar
-    elif "saat kaç" in command:
+    # günlük komutlar
+    elif intent=="saat":
         now = datetime.now().strftime("%H:%M")
         speak(f"Saat şu an {now}")
+        print(f"Saat: {now}")
 
-    elif "bugünün tarihi ne" in command:
+    elif intent=="tarih":
         today = datetime.now().strftime("%d %B %Y")
         speak(f"Bugünün tarihi {today}")
+        print(f"Bugünün tarihi: {today}")
 
-    elif "not al" in command:
+    elif intent=="not":
         speak("Ne not almamı istersin?")
+        print("Not almak için dinleniyor...")
         note = listen()
         if note:
             folder_path = os.getenv("SESLİ_ASİSTAN_NOTLARI_PATH")
@@ -85,19 +105,49 @@ def process_command(command, sp, awake=True):
                 f.write(note + "\n")
 
             speak(f"Notunuz {filename} dosyasına kaydedildi.")
+            print(f"Not kaydedildi: {file_path}")
         else:
             speak("Notu anlayamadım.")
+            print("Notu anlayamadım.")
+
+    #öğrenme
+    elif intent == "komutEkle":
+        speak("İntent adını söyleyin.")
+        print("Intent adı için dinleniyor...")
+        intent_name = listen()
+
+        speak("Bu intent için bir komut cümlesi söyleyin.")
+        print("Komut cümlesi için dinleniyor...")
+        phrase = listen()
+
+        if intent_name and phrase:
+            intentrecognition.add_command(intent_name, phrase)
+            speak("İntents.json dosyası güncellendi.")
+            print("İntents.json dosyası güncellendi.")
+        else:
+            speak("Komut ekleme başarısız oldu, lütfen tekrar deneyin.")
+            print("Komut ekleme başarısız oldu, lütfen tekrar deneyin.")
 
     #uyku ve çıkış
-    elif "kapat" in command or "çıkış" in command:
+    elif intent=="uykuModu":
+        speak("Uyku moduna geçiyorum. Uyandırmak için herhangi bir wakewordü söyleyin.")
+        print("Uyku moduna geçildi.")
+        awake = False
+    
+    elif intent=="çıkış":
         speak("Program kapatılıyor.")
+        print("Program kapatılıyor.")
         exit()
 
-    elif "uyku moduna geç" in command:
-        speak("Uyku moduna geçiyorum. Uyandırmak için herhangi bir wakeword söyleyin.")
-        awake = False
-
     else:
-        speak(f"Anlamadım: {command}")
-
+        learned_intent = intentEngine.learn_new_phrase(command,learning_threshold=0.12)
+        if learned_intent != "bilinmiyor":
+            speak(f"Bunu öğrendim, '{learned_intent}' olarak kaydettim.")
+            print(f"Öğrenilen intent: {learned_intent}")
+            intent = learned_intent
+            # burada istersen tekrar komutu çalıştırabilirsin
+            # örneğin eğer learned_intent == "müzikAç" ise direkt şarkıyı aç
+        else:
+            speak(f"Anlamadım: {command}")
+            print(f"Anlamadım: {command}")
     return awake
